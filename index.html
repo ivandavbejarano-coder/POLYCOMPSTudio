@@ -107,6 +107,25 @@ pre.formula em{color:#FBBF24;font-style:normal}
 .fase .n{font-family:var(--mono);font-weight:700;font-size:20px;color:var(--amber)}
 .fase h4{margin:0 0 3px;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
 .fase p{margin:0;font-size:14px;color:var(--ink2)}
+/* informe imprimible */
+#informe{display:none}
+@page{margin:14mm}
+@media print{
+  body.print-mode>*:not(#informe){display:none!important}
+  body.print-mode #informe{display:block}
+  #informe{font:12px/1.5 Georgia,'Times New Roman',serif;color:#111}
+  #informe h1{font-size:19px;margin:0 0 2px}
+  #informe .sub{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#444;margin:0 0 10px}
+  #informe h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1.5px solid #111;padding-bottom:3px;margin:16px 0 6px}
+  #informe table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}
+  #informe th,#informe td{border:1px solid #777;padding:3px 6px;text-align:left}
+  #informe th{background:#EFEDE6}
+  #informe .mono{font-family:var(--mono)}
+  #informe .warn{border:1.5px solid #B45309;background:#FFF7ED;padding:8px 10px;margin:10px 0;font-size:11px}
+  #informe .sec{page-break-inside:avoid}
+  #informe .nota{font-size:10.5px;color:#333;margin:4px 0 0}
+  #informe .pie{margin-top:18px;border-top:1.5px solid #111;padding-top:6px;font-size:10px;color:#444}
+}
 /* footer */
 footer{background:var(--ink);color:#D1D5DB;padding:36px 0;font-size:13px}
 footer h4{color:#FBBF24;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;font-size:12px;margin:0 0 8px}
@@ -127,7 +146,7 @@ details p{padding:0 14px 12px;margin:0;font-size:14px;color:var(--ink2)}
   <a href="#m01">M01 FORMULADOR</a><a href="#m02">M02 MICROMECÁNICA</a><a href="#m03">M03 ISO 10328</a>
   <a href="#m04">M04 MODELO 3D</a><a href="#m05">M05 TRAZABILIDAD</a><a href="#m06">M06 ACV</a>
   <a href="#m07">M07 MÉTODO</a><a href="#m08">M08 EQUIPO</a><a href="#m09">M09 FUENTES</a>
-  <span class="ver">v3.0 · 2026-11-17</span>
+  <span class="ver">v3.2 · 2026-11-18</span>
 </div></nav>
 
 <header class="hero"><div class="wrap">
@@ -151,6 +170,10 @@ details p{padding:0 14px 12px;margin:0;font-size:14px;color:var(--ink2)}
     <div class="stat"><b>9</b><span>secciones estructurales verificadas</span></div>
     <div class="stat"><b>4</b><span>formulaciones (0–15 % p/p TTB)</span></div>
     <div class="stat"><b id="st-datos">—</b><span>datos con procedencia etiquetada</span></div>
+  </div>
+  <div class="btnrow" style="margin-top:20px">
+    <button id="b-informe">Exportar informe PDF de resultados</button>
+    <button id="b-csv">Descargar banco de datos (CSV)</button>
   </div>
 </div></header>
 
@@ -209,6 +232,23 @@ E específico = Ec / ρc                w en fracción másica</pre>
       <p class="small">Ef = 12 GPa es un <b>supuesto bibliográfico</b> para agregados de negro de humo; ξ = 2 es el
       factor de forma usual para partículas. ρf = 1,80 g/cm³ y ρm = 0,905 g/cm³ son los valores de trabajo del
       proyecto. <span class="o o-biblio">Bibliográfico</span> <span class="o o-teor">Escenario teórico</span></p>
+      <label class="f" style="margin-top:14px;cursor:pointer"><input type="checkbox" id="m-adv" style="vertical-align:-2px">
+      Correcciones exploratorias (aglomeración · porosidad · adhesión interfacial)</label>
+      <div id="m-advbox" style="display:none">
+        <div class="grid2">
+          <div><label class="f">Porosidad pv (%) — <span id="m-pvv">0,0</span></label>
+          <input type="range" id="m-pv" min="0" max="5" step="0.1" value="0"></div>
+          <div><label class="f">Adhesión de interfaz k — <span id="m-kv">1,00</span></label>
+          <input type="range" id="m-k" min="0.6" max="1" step="0.01" value="1"></div>
+          <div><label class="f">Dispersión a — <span id="m-av">1,00</span></label>
+          <input type="range" id="m-a" min="0.5" max="1" step="0.01" value="1"></div>
+        </div>
+        <p class="small"><b>Sensibilidad exploratoria, no medición:</b> k &lt; 1 degrada la transferencia de carga
+        matriz–partícula (Ef efectivo = Em + k·(Ef − Em)); a &lt; 1 simula aglomeración reduciendo la fracción
+        volumétrica efectiva (Vf·a); pv aplica la regla de mezclas de vacíos Ec·(1 − pv/100). Sirve para acotar
+        cuánto caería Ec si la fabricación real se aparta del supuesto ideal. Los valores base del proyecto
+        (columna «Ec» sin corregir) no cambian. <span class="o o-teor">Escenario teórico</span></p>
+      </div>
     </div></div>
     <div class="sheet"><h3>Salida del modelo</h3><div class="body">
       <div class="out">
@@ -217,10 +257,13 @@ E específico = Ec / ρc                w en fracción másica</pre>
         <div class="cell hot"><span>Ec</span><b id="m-ec">—</b></div>
         <div class="cell"><span>Δ vs matriz</span><b id="m-dec">—</b></div>
         <div class="cell"><span>E específico</span><b id="m-eesp">—</b></div>
+        <div class="cell hot" id="m-adjcell" style="display:none"><span>Ec corregido</span><b id="m-eca">—</b></div>
+        <div class="cell" id="m-adjcell2" style="display:none"><span>Δ vs Ec base</span><b id="m-ade">—</b></div>
       </div>
       <canvas class="chart" id="m-canvas" style="margin-top:14px"></canvas>
       <p class="small">Curva Ec(w) con ξ = 2. Puntos fijos: formulaciones 0/5/10/15 % del proyecto
-      (1,350 / 1,427 / 1,511 / 1,604 GPa).</p>
+      (1,350 / 1,427 / 1,511 / 1,604 GPa). Si activa las correcciones exploratorias se dibuja además la
+      curva corregida en trazo discontinuo.</p>
     </div></div>
   </div>
 </div></section>
@@ -260,6 +303,19 @@ E específico = Ec / ρc                w en fracción másica</pre>
       </table></div>
     </div></div>
   </div>
+  <div class="sheet" style="margin-top:18px"><h3>Perfil analítico de esfuerzo en las nueve secciones verificadas</h3><div class="body">
+    <p class="small" style="margin:0 0 8px">σ(z) = F/A(z) + M·c(z)/I<sub>xx</sub>(z), con M = F·e constante a lo largo
+    del encaje (excentricidad e = 25 mm). Reproduce exactamente la comprobación de la sección de referencia
+    (z = −90 mm) y la extiende a las nueve secciones medidas sobre el sólido CAD. Es una <b>estimación analítica
+    de primer orden</b>, no un análisis por elementos finitos: no captura concentraciones locales, anisotropía ni
+    contacto con el muñón.</p>
+    <canvas class="chart" id="i-canvas" style="height:230px"></canvas>
+    <div class="tblscroll" style="max-height:270px;margin-top:12px"><table id="i-tab2">
+      <thead><tr><th>z (mm)</th><th>A (mm²)</th><th>c (mm)</th><th>Ixx AP (mm⁴)</th><th>σ axial (MPa)</th>
+      <th>σ flex. AP (MPa)</th><th>σ máx (MPa)</th><th>FS (formulación activa)</th></tr></thead><tbody></tbody>
+    </table></div>
+    <p class="small" id="i-perf-note">—</p>
+  </div></div>
 </div></section>
 
 <section id="m04"><div class="wrap">
@@ -354,6 +410,8 @@ E específico = Ec / ρc                w en fracción másica</pre>
         <tr><td class="mono">v1.0</td><td>Sitio RCB UAO: tablas, calculadora y descargas del proyecto.</td></tr>
         <tr><td class="mono">v2.0</td><td>PASO CIRCULAR: identidad propia, visor 3D con GLB incrustado y capturas reales.</td></tr>
         <tr><td class="mono">v3.0</td><td>Este repositorio: seis módulos sobre datos.js verificado, secciones estructurales y comprobación ISO reproducibles.</td></tr>
+        <tr><td class="mono">v3.1</td><td>Módulo 09: fuentes primarias (correspondencia con Pyrum, fichas TDS y SDS) y enlace cruzado con el sitio PASO CIRCULAR.</td></tr>
+        <tr><td class="mono">v3.2</td><td>Exportación en un clic (informe PDF + CSV), perfil analítico de esfuerzo en las nueve secciones y correcciones exploratorias etiquetadas (porosidad, interfaz, aglomeración) en M02.</td></tr>
       </tbody></table>
     </div></div>
   </div>
@@ -383,6 +441,11 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
       referencia académico generado por script, verificado numéricamente y comprobado analíticamente frente a
       ISO 10328:2016 como verificación de concepto. Cualquier uso real exigiría ensayo normalizado, validación
       clínica y prescripción profesional.</p></details>
+      <details><summary>¿Cómo exporto los resultados?</summary><p>Con los botones de la cabecera: «Exportar informe
+      PDF de resultados» compone un informe con el estado actual de todos los módulos y abre el diálogo de impresión
+      del navegador (elija destino «Guardar como PDF»); «Descargar banco de datos (CSV)» exporta las tablas de
+      formulaciones, secciones, comprobación, ACV y trazabilidad. Todo ocurre en el navegador: la página no almacena
+      datos ni los envía a ningún servidor.</p></details>
     </div></div>
   </div>
 </div></section>
@@ -482,9 +545,11 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
     <a href="cad/Encaje_Transtibial_UAO.glb" style="color:#FBBF24">Modelo GLB</a> ·
     <a href="cad/Encaje_Transtibial_UAO.stl" style="color:#FBBF24">Malla STL</a> ·
     <a href="cad/propiedades.json" style="color:#FBBF24">propiedades.json</a></p>
-    <p class="mono" style="font-size:11px">POLYCOMPSTudio · rama main · v3.0 · 2026-11-17</p>
+    <p class="mono" style="font-size:11px">POLYCOMPSTudio · rama main · v3.2 · 2026-11-18</p>
   </div>
 </div></footer>
+
+<div id="informe"></div>
 
 <script src="datos.js"></script>
 <script src="lib/three.min.js"></script>
