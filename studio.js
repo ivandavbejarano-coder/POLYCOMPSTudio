@@ -294,7 +294,10 @@
     ['Interfaz piramidal', '30 × 30 × 12 mm, 4 × M6 a 22 mm', 'cad', 'Diseño propio según interfaz normalizada de adaptadores'],
     ['Pilón tubular', 'Ø30 × 1,5 × 250 mm', 'cad', 'Diseño propio de referencia'],
     ['Flexión y barra patelar', '5°; relieve 8 mm a 45 mm', 'cad', 'Diseño propio con referencia de encajes transtibiales'],
-    ['Teselación del visor', '29.774 triángulos a 0,15 mm', 'cad', 'Exportador propio glb_export.py sobre el B-rep']
+    ['Teselación del visor', '29.774 triángulos a 0,15 mm', 'cad', 'Exportador propio glb_export.py sobre el B-rep'],
+    ['Ficha técnica TDS', 'PI-ADA-PYR-004 rev. 6: 16 propiedades típicas con método', 'pyrum', 'Pyrum Innovations AG (2026b); valores típicos, no garantizados'],
+    ['Ficha de seguridad SDS', 'SDS-TTB-EN v7: composición, CLP, exposición y explosividad', 'pyrum', 'Pyrum Innovations AG (2026c); documento regulatorio del productor'],
+    ['Correspondencia con Pyrum', '7 capturas del hilo, 29/09–11/11/2026', 'real', 'Evidencia primaria del proyecto; Anexo B y módulo M09']
   ];
   var ETIQ = { real: ['REAL PROYECTO', 'o-real'], pyrum: ['PYRUM', 'o-pyrum'], biblio: ['BIBLIOGRÁFICO', 'o-biblio'], teor: ['ESC. TEÓRICO', 'o-teor'], cad: ['MEDIDA / CAD', 'o-cad'] };
   function pintaTraza(f) {
