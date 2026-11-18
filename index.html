@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PolyComp Studio · banco de trabajo del compuesto PP/rCB · UAO 2026</title>
+<meta name="description" content="PolyComp Studio v3.0: banco de trabajo virtual del compuesto polipropileno + negro de humo recuperado (rCB) por pirólisis de NFU. Formulador, micromecánica Halpin-Tsai, comprobación ISO 10328, visor 3D del encaje transtibial, trazabilidad de datos y ACV. Trabajo de grado UAO 2026, caso Pyrum Innovations AG.">
+<style>
+:root{
+  --paper:#F4F2EC; --sheet:#FFFDF8; --ink:#14181C; --ink2:#4B5560; --line:#14181C;
+  --amber:#C2410C; --cobalt:#1E40AF; --grid:rgba(20,24,28,.055);
+  --real:#15803D; --pyrum:#0F766E; --biblio:#1D4ED8; --teor:#C2410C; --cad:#6D28D9;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font:16px/1.6 system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+.mono{font-family:var(--mono)}
+a{color:var(--cobalt)}
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:var(--ink);color:#F4F2EC;border-bottom:3px solid var(--amber)}
+nav .wrap{display:flex;gap:18px;align-items:center;height:52px;overflow-x:auto}
+nav .logo{font-family:var(--mono);font-weight:700;letter-spacing:.06em;white-space:nowrap}
+nav .logo b{color:#FBBF24}
+nav a{color:#E5E7EB;text-decoration:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;white-space:nowrap;padding:4px 2px;border-bottom:2px solid transparent}
+nav a:hover{color:#FBBF24;border-bottom-color:#FBBF24}
+nav .ver{margin-left:auto;font-family:var(--mono);font-size:11px;color:#FBBF24;border:1px solid #FBBF24;padding:2px 8px;border-radius:2px}
+/* hero */
+header.hero{padding:64px 0 34px;border-bottom:2px solid var(--ink)}
+.overline{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);background:#FFF3E6;border:1px dashed var(--amber);display:inline-block;padding:5px 10px}
+h1{font-size:clamp(44px,8vw,96px);line-height:.95;margin:18px 0 6px;text-transform:uppercase;letter-spacing:-.02em;font-weight:900}
+h1 span{color:var(--amber)}
+.lede{max-width:820px;font-size:18px;color:var(--ink2)}
+.lede b{color:var(--ink)}
+.chips{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;padding:4px 9px;border:1.5px solid var(--ink);background:var(--sheet);box-shadow:3px 3px 0 var(--ink)}
+.chip.warn{border-color:var(--amber);color:var(--amber);background:#FFF7ED;box-shadow:3px 3px 0 var(--amber)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:30px 0 0}
+.stat{background:var(--sheet);border:1.5px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:12px 14px}
+.stat b{display:block;font-family:var(--mono);font-size:26px;line-height:1.1}
+.stat span{font-size:12px;color:var(--ink2);font-family:var(--mono);letter-spacing:.04em}
+/* sections */
+section{padding:56px 0;border-bottom:2px solid var(--ink)}
+.modhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.modnum{font-family:var(--mono);font-size:13px;font-weight:700;color:#FFFDF8;background:var(--ink);padding:3px 9px;letter-spacing:.1em}
+h2{font-size:clamp(26px,4vw,40px);margin:0;text-transform:uppercase;letter-spacing:-.01em;font-weight:900}
+.modhead .tag{font-family:var(--mono);font-size:11px;color:var(--ink2)}
+.intro{max-width:900px;color:var(--ink2)}
+/* sheets */
+.sheet{background:var(--sheet);border:1.5px solid var(--ink);box-shadow:5px 5px 0 var(--ink);margin-top:22px}
+.sheet>h3{margin:0;padding:10px 14px;border-bottom:1.5px dashed var(--ink);font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:#FBF9F2}
+.sheet .body{padding:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+/* controls */
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+button,.sel{font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:7px 12px;border:1.5px solid var(--ink);background:var(--sheet);cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+button:hover{background:#FFF3E6}
+button.on{background:var(--ink);color:#FBBF24}
+select.sel{box-shadow:3px 3px 0 var(--ink)}
+label.f{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink2);margin:10px 0 4px;text-transform:uppercase}
+input[type=number],input[type=range]{width:100%;font-family:var(--mono);font-size:14px;padding:6px 8px;border:1.5px solid var(--ink);background:#fff}
+/* outputs */
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:14px}
+.out .cell{border:1.5px solid var(--ink);background:#FBF9F2;padding:8px 10px}
+.out .cell span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ink2);text-transform:uppercase}
+.out .cell b{font-family:var(--mono);font-size:19px}
+.out .cell.hot b{color:var(--amber)}
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--ink);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--ink);color:#F4F2EC;font-family:var(--mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.mono,th.mono{font-family:var(--mono)}
+tr:nth-child(even) td{background:#FBF9F2}
+.tblscroll{max-height:340px;overflow:auto;border:1.5px solid var(--ink)}
+.tblscroll table{border:0}
+.tblscroll th{position:sticky;top:0}
+/* origin chips */
+.o{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:2px 7px;border:1.5px solid;white-space:nowrap}
+.o-real{color:var(--real);border-color:var(--real);background:#F0FDF4}
+.o-pyrum{color:var(--pyrum);border-color:var(--pyrum);background:#F0FDFA}
+.o-biblio{color:var(--biblio);border-color:var(--biblio);background:#EFF6FF}
+.o-teor{color:var(--teor);border-color:var(--teor);background:#FFF7ED}
+.o-cad{color:var(--cad);border-color:var(--cad);background:#F5F3FF}
+/* formulas */
+pre.formula{font-family:var(--mono);font-size:13px;background:var(--ink);color:#E5E7EB;padding:12px 14px;overflow:auto;border-left:5px solid var(--amber);margin:10px 0}
+pre.formula em{color:#FBBF24;font-style:normal}
+/* viewer */
+#visorbox{position:relative;background:#101418;border:1.5px solid var(--ink);height:520px;overflow:hidden}
+#visor3d{width:100%;height:100%;display:block;touch-action:none}
+.vhud{position:absolute;top:10px;left:10px;right:10px;display:flex;flex-wrap:wrap;gap:7px;z-index:5}
+.vhud button,.vhud select{background:#14181C;color:#E5E7EB;border-color:#3A4046;box-shadow:2px 2px 0 #000}
+.vhud button.on{background:#FBBF24;color:#14181C;border-color:#FBBF24}
+.vpanel{position:absolute;right:10px;bottom:10px;z-index:5;background:rgba(20,24,28,.92);color:#E5E7EB;border:1px solid #3A4046;padding:10px 12px;font-family:var(--mono);font-size:11px;max-width:270px}
+.vpanel b{color:#FBBF24}
+.vpanel .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted #3A4046;padding:2px 0}
+/* method timeline */
+.fase{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:12px 0;border-bottom:1px dashed var(--ink)}
+.fase:last-child{border-bottom:0}
+.fase .n{font-family:var(--mono);font-weight:700;font-size:20px;color:var(--amber)}
+.fase h4{margin:0 0 3px;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.fase p{margin:0;font-size:14px;color:var(--ink2)}
+/* footer */
+footer{background:var(--ink);color:#D1D5DB;padding:36px 0;font-size:13px}
+footer h4{color:#FBBF24;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;font-size:12px;margin:0 0 8px}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+footer ol{margin:0;padding-left:18px}
+footer li{margin:4px 0}
+.swatch{width:46px;height:26px;border:1.5px solid var(--ink);display:inline-block;vertical-align:middle}
+canvas.chart{width:100%;height:260px;display:block;background:#FBF9F2;border:1.5px solid var(--ink)}
+.small{font-size:12px;color:var(--ink2)}
+details{border:1.5px solid var(--ink);background:var(--sheet);margin:8px 0;box-shadow:3px 3px 0 var(--ink)}
+summary{cursor:pointer;padding:10px 14px;font-family:var(--mono);font-size:13px;letter-spacing:.04em}
+details p{padding:0 14px 12px;margin:0;font-size:14px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <span class="logo">POLYCOMP<b>STUDIO</b></span>
+  <a href="#m01">M01 FORMULADOR</a><a href="#m02">M02 MICROMECÁNICA</a><a href="#m03">M03 ISO 10328</a>
+  <a href="#m04">M04 MODELO 3D</a><a href="#m05">M05 TRAZABILIDAD</a><a href="#m06">M06 ACV</a>
+  <a href="#m07">M07 MÉTODO</a><a href="#m08">M08 EQUIPO</a><a href="#m09">M09 FUENTES</a>
+  <span class="ver">v3.0 · 2026-11-17</span>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="overline">Banco de trabajo virtual · compuesto PP + negro de humo recuperado (rCB)</span>
+  <h1>PolyComp<br><span>Studio</span></h1>
+  <p class="lede">Entorno interactivo que reúne, en un solo lugar, los <b>datos verificados</b> del trabajo de grado
+  «Aprovechamiento de negro de humo recuperado por pirólisis de llantas usadas para el desarrollo de prótesis
+  biomédicas con apoyo de ingeniería multimedia» (UAO, 2026; caso de estudio Pyrum Innovations AG): el formulador
+  del compuesto, el modelo micromecánico Halpin–Tsai, la comprobación analítica frente a ISO 10328:2016, el visor
+  tridimensional del encaje transtibial modelado en CAD, la matriz de trazabilidad de cada cifra y los escenarios
+  de análisis de ciclo de vida del modelo de 2022.</p>
+  <div class="chips">
+    <span class="chip warn">No es un dispositivo médico validado</span>
+    <span class="chip warn">Los valores del compuesto son predicciones del modelo, no mediciones</span>
+    <span class="chip warn">ACV 2022: no extrapolado a Colombia</span>
+    <span class="chip">Cada dato indica su procedencia</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>6</b><span>módulos interactivos</span></div>
+    <div class="stat"><b id="st-tris">—</b><span>triángulos del sólido en el visor</span></div>
+    <div class="stat"><b>9</b><span>secciones estructurales verificadas</span></div>
+    <div class="stat"><b>4</b><span>formulaciones (0–15 % p/p TTB)</span></div>
+    <div class="stat"><b id="st-datos">—</b><span>datos con procedencia etiquetada</span></div>
+  </div>
+</div></header>
+
+<main>
+<section id="m01"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 01</span><h2>Formulador del compuesto</h2><span class="tag">PP + ThermoTireBlack® + PP-g-MA</span></div>
+  <p class="intro">Seleccione la carga de negro de humo recuperado (ThermoTireBlack®, TTB) en peso y el banco
+  responde con las propiedades predichas del compuesto y la masa resultante del encaje transtibial modelado.
+  El compatibilizante <b>PP-g-MA se mantiene en ≈2 % en peso</b> en todas las formulaciones: su función es anclar
+  la apolaridad del polipropileno a la superficie oxidada del rCB y evitar el desprendimiento de carga en la
+  interfaz; sin él, la ganancia modular del modelo no sería alcanzable en la práctica.</p>
+  <div class="sheet"><h3>Formulación activa</h3><div class="body">
+    <div class="btnrow" id="f-btns">
+      <button data-w="0">0 % TTB (PP virgen)</button><button data-w="5">5 % TTB</button>
+      <button data-w="10" class="on">10 % TTB</button><button data-w="15">15 % TTB</button>
+    </div>
+    <div class="out">
+      <div class="cell"><span>Fracción vol. Vf</span><b id="f-vf">—</b></div>
+      <div class="cell"><span>Densidad ρc</span><b id="f-rho">—</b></div>
+      <div class="cell hot"><span>Módulo Ec</span><b id="f-ec">—</b></div>
+      <div class="cell"><span>E. específico</span><b id="f-eesp">—</b></div>
+      <div class="cell"><span>Fluencia asumida</span><b id="f-sig">—</b></div>
+      <div class="cell"><span>Masa del encaje</span><b id="f-masa">—</b></div>
+      <div class="cell"><span>Apariencia</span><b><span class="swatch" id="f-swatch"></span></b></div>
+    </div>
+    <p class="small" style="margin:12px 0 0">Volumen de material constante (307,4 cm³, medido sobre el sólido CAD):
+    la masa cambia solo por la densidad del compuesto. Apariencia estimada por carga de carga mineral; no es una
+    medición colorimétrica. <span class="o o-teor">Escenario teórico</span> <span class="o o-cad">Medida propia CAD</span></p>
+  </div></div>
+  <div class="sheet"><h3>Tabla maestra de formulaciones</h3><div class="body tblscroll"><table id="f-tab">
+    <thead><tr><th>Formulación</th><th>w (% p/p)</th><th>Vf (%)</th><th>ρc (g/cm³)</th><th>Ec (GPa)</th><th>ΔEc vs matriz</th><th>E esp. (GPa·cm³/g)</th><th>Fluencia asumida (MPa)</th><th>Masa encaje (g)</th></tr></thead>
+    <tbody></tbody>
+  </table></div></div>
+</div></section>
+
+<section id="m02"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 02</span><h2>Micromecánica Halpin–Tsai</h2><span class="tag">ξ = 2 (carga particulada)</span></div>
+  <p class="intro">El módulo elástico del compuesto se estima con el modelo semiempírico de Halpin–Tsai, forma
+  estándar para cargas particuladas isotrópicas. Mueva los parámetros y observe la curva completa Ec(w): los
+  marcadores fijos corresponden a las cuatro formulaciones del proyecto.</p>
+  <pre class="formula">η = (Ef/Em − 1) / (Ef/Em + ξ)
+Ec = Em · (1 + ξ·η·Vf) / (1 − η·Vf)
+Vf = (w/ρf) / (w/ρf + (1−w)/ρm)      ρc = 1 / (w/ρf + (1−w)/ρm)
+E específico = Ec / ρc                w en fracción másica</pre>
+  <div class="grid2">
+    <div class="sheet"><h3>Parámetros de entrada</h3><div class="body">
+      <label class="f">Carga w (% peso) — <span id="m-wv">10</span></label>
+      <input type="range" id="m-w" min="0" max="20" step="0.5" value="10">
+      <div class="grid2">
+        <div><label class="f">Ef carga (MPa)</label><input type="number" id="m-ef" value="12000"></div>
+        <div><label class="f">Em matriz (MPa)</label><input type="number" id="m-em" value="1350"></div>
+        <div><label class="f">ξ forma</label><input type="number" id="m-xi" value="2"></div>
+        <div><label class="f">ρf (g/cm³)</label><input type="number" id="m-rf" step="0.005" value="1.80"></div>
+        <div><label class="f">ρm (g/cm³)</label><input type="number" id="m-rm" step="0.005" value="0.905"></div>
+      </div>
+      <p class="small">Ef = 12 GPa es un <b>supuesto bibliográfico</b> para agregados de negro de humo; ξ = 2 es el
+      factor de forma usual para partículas. ρf = 1,80 g/cm³ y ρm = 0,905 g/cm³ son los valores de trabajo del
+      proyecto. <span class="o o-biblio">Bibliográfico</span> <span class="o o-teor">Escenario teórico</span></p>
+    </div></div>
+    <div class="sheet"><h3>Salida del modelo</h3><div class="body">
+      <div class="out">
+        <div class="cell"><span>Vf</span><b id="m-vf">—</b></div>
+        <div class="cell"><span>ρc</span><b id="m-rho">—</b></div>
+        <div class="cell hot"><span>Ec</span><b id="m-ec">—</b></div>
+        <div class="cell"><span>Δ vs matriz</span><b id="m-dec">—</b></div>
+        <div class="cell"><span>E específico</span><b id="m-eesp">—</b></div>
+      </div>
+      <canvas class="chart" id="m-canvas" style="margin-top:14px"></canvas>
+      <p class="small">Curva Ec(w) con ξ = 2. Puntos fijos: formulaciones 0/5/10/15 % del proyecto
+      (1,350 / 1,427 / 1,511 / 1,604 GPa).</p>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="m03"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 03</span><h2>Comprobación ISO 10328:2016</h2><span class="tag">axil + flexión simple en sección de media altura</span></div>
+  <p class="intro">Verificación de concepto dimensionante del encaje bajo los niveles de carga P5 y P6 de
+  ISO 10328:2016 con excentricidad e = 25 mm, sobre la sección de referencia z = −90 mm (media altura):
+  σ = F/A + M·c/I. Es una <b>estimación analítica propia de primer orden</b>: no sustituye el ensayo estructural
+  normalizado ni un análisis por elementos finitos.</p>
+  <div class="grid2">
+    <div class="sheet"><h3>Caso de carga</h3><div class="body">
+      <div class="btnrow" id="i-btns"><button data-n="P5">Nivel P5 · 1200 N</button><button data-n="P6" class="on">Nivel P6 · 1500 N</button></div>
+      <div class="out">
+        <div class="cell"><span>F axial</span><b id="i-f">—</b></div>
+        <div class="cell"><span>M = F·e</span><b id="i-m">—</b></div>
+        <div class="cell"><span>σ axial</span><b id="i-sax">—</b></div>
+        <div class="cell"><span>σ flex. AP</span><b id="i-sap">—</b></div>
+        <div class="cell"><span>σ flex. ML</span><b id="i-sml">—</b></div>
+        <div class="cell hot"><span>σ máxima</span><b id="i-smax">—</b></div>
+      </div>
+      <p class="small" id="i-secc">Sección de referencia: z = −90 mm. A = 1231,2 mm² · c = 37,1 mm · e = 25 mm.</p>
+    </div></div>
+    <div class="sheet"><h3>Factor de seguridad por formulación</h3><div class="body">
+      <label class="f">Formulación evaluada</label>
+      <select class="sel" id="i-mat" style="width:100%">
+        <option value="0">PP virgen (0 % rCB)</option><option value="5">PP + 5 % TTB</option>
+        <option value="10" selected>PP + 10 % TTB</option><option value="15">PP + 15 % TTB</option>
+      </select>
+      <div class="out"><div class="cell hot"><span>FS estático</span><b id="i-fs">—</b></div>
+      <div class="cell"><span>Fluencia asumida</span><b id="i-sy">—</b></div></div>
+      <p class="small">FS = fluencia asumida / σ máxima. El dimensionamiento real de una prótesis de PP lo gobiernan
+      <b>creep y fatiga</b>, no la rotura estática: el FS alto indica holgura elástica, no aptitud clínica.
+      <span class="o o-teor">Cálculo propio</span> <span class="o o-biblio">ISO 10328:2016</span></p>
+      <div class="tblscroll" style="max-height:190px"><table id="i-tab">
+        <thead><tr><th>Formulación</th><th>FS P5</th><th>FS P6</th></tr></thead><tbody></tbody>
+      </table></div>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="m04"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 04</span><h2>Modelo 3D del encaje</h2><span class="tag">glTF binario teselado del B-rep verificado</span></div>
+  <p class="intro">El mismo sólido B-rep que se abre en SolidWorks y que documenta el plano A3, teselado a
+  0,15 mm y servido como glTF binario incrustado. Rote con el ratón o un dedo, acerque con la rueda o el pellizco,
+  y use los modos para inspeccionar geometría: despiece del ensamblaje, plano de corte y aristas. El panel inferior
+  derecho resume las magnitudes medidas sobre el sólido.</p>
+  <div id="visorbox">
+    <div class="vhud">
+      <button data-vista="iso" class="on">ISOMÉTRICA</button><button data-vista="frontal">FRONTAL</button>
+      <button data-vista="lateral">LATERAL</button><button data-vista="superior">SUPERIOR</button>
+      <button id="b-explode">DESPIECE</button><button id="b-corte">CORTE</button><button id="b-wire">ARISTAS</button>
+      <button id="b-rot">GIRO AUTO</button><button id="b-reset">RESTABLECER</button>
+      <select class="sel" id="s-mat"><option value="0">PP virgen</option><option value="5">PP + 5 % TTB</option><option value="10" selected>PP + 10 % TTB</option><option value="15">PP + 15 % TTB</option></select>
+    </div>
+    <canvas id="visor3d"></canvas>
+    <div class="vpanel" id="vpanel"></div>
+  </div>
+  <div class="sheet"><h3>Secciones estructurales medidas sobre el sólido (z desde el borde proximal)</h3>
+  <div class="body tblscroll"><table id="v-secc">
+    <thead><tr><th>z (mm)</th><th>A material (mm²)</th><th>Ixx flex. AP (mm⁴)</th><th>Iyy flex. ML (mm⁴)</th><th>Fibra máx. c (mm)</th><th>Pared media (mm)</th><th>Perím. ext. (mm)</th></tr></thead>
+    <tbody></tbody>
+  </table></div></div>
+</div></section>
+
+<section id="m05"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 05</span><h2>Trazabilidad de cada cifra</h2><span class="tag">filtre por procedencia</span></div>
+  <p class="intro">Ningún número de este banco aparece sin su origen. Filtre la matriz para ver únicamente los
+  datos declarados por Pyrum, los bibliográficos, los teóricos o las mediciones propias sobre el modelo CAD.</p>
+  <div class="btnrow" id="t-filtros">
+    <button data-o="todos" class="on">TODOS</button><button data-o="real">REAL PROYECTO</button>
+    <button data-o="pyrum">PYRUM</button><button data-o="biblio">BIBLIOGRÁFICO</button>
+    <button data-o="teor">ESCENARIO TEÓRICO</button><button data-o="cad">MEDIDA / CAD PROPIO</button>
+  </div>
+  <div class="sheet"><h3>Matriz de trazabilidad</h3><div class="body tblscroll" style="max-height:460px"><table>
+    <thead><tr><th>Dato</th><th>Valor</th><th>Procedencia</th><th>Fuente</th></tr></thead>
+    <tbody id="t-body"></tbody>
+  </table></div></div>
+</div></section>
+
+<section id="m06"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 06</span><h2>Escenarios de ACV (modelo 2022)</h2><span class="tag">GWP100 kg CO₂-eq por t de NFU</span></div>
+  <p class="intro">Salidas del análisis de ciclo de vida de la pirólisis de neumáticos fuera de uso elaborado por
+  Fraunhofer UMSICHT en 2022 (Maga, Aryan &amp; Blömer), documento confidencial citado por el trabajo de grado.
+  Son <b>resultados de un modelo europeo de 2022</b>: no se extrapolan a Colombia ni se presentan como medición propia.</p>
+  <div class="grid2">
+    <div class="sheet"><h3>GWP100 por escenario</h3><div class="body"><canvas class="chart" id="a-canvas"></canvas></div></div>
+    <div class="sheet"><h3>Lectura de los escenarios</h3><div class="body">
+      <table id="a-tab"><thead><tr><th>Escenario</th><th>GWP100</th></tr></thead><tbody></tbody></table>
+      <p class="small" style="margin-top:10px">El único escenario positivo (+164) corresponde a la valorización
+      energética sin sustitución de negro de humo virgen: la ventaja climática del proceso reside en la
+      <b>sustitución de material</b>, no en la quema. <span class="o o-biblio">Maga et al. (2022)</span></p>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="m07"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 07</span><h2>Método propuesto, fase por fase</h2><span class="tag">estado real de cada fase</span></div>
+  <p class="intro">Ruta experimental y de ingeniería del proyecto con el estado verdadero de cada fase: lo que está
+  documentado como proceso industrial real, lo que existe como modelo o diseño, y lo que permanece como propuesta
+  no ejecutada. No se realizaron ensayos de laboratorio en el marco del trabajo.</p>
+  <div class="sheet"><h3>Línea de proceso</h3><div class="body">
+    <div class="fase"><div class="n">F1</div><div><h4>Pirólisis industrial del granulado de NFU</h4><p>Proceso real documentado del caso de estudio: ≈23.000 t de NFU/año en Dillingen, tres reactores con ≈5.000 t de granulado/año cada uno; alimentación con granulado de caucho, nunca neumático entero. <span class="o o-pyrum">Pyrum</span></p></div></div>
+    <div class="fase"><div class="n">F2</div><div><h4>Caracterización declarada del rCB</h4><p>BET 65–85 m²/g y STSA 50–70 m²/g como rangos indicativos del productor, no garantizados; ensayado en PP y PE sin detalle de formulación. <span class="o o-pyrum">Pyrum</span></p></div></div>
+    <div class="fase"><div class="n">F3</div><div><h4>Purificación ácida documental</h4><p>Ruta de lavado ácido y enjuague tomada de la literatura para reducir cenizas y residuos solubles; desarrollada como análisis documental, sin ejecución experimental. <span class="o o-biblio">Bibliográfico</span></p></div></div>
+    <div class="fase"><div class="n">F4</div><div><h4>Secado, molienda y tamizado</h4><p>Propuesta no ejecutada: secado &lt; 2 % de humedad y tamizado &lt; 45 µm para controlar concentración de tensiones. <span class="o o-teor">Propuesta</span></p></div></div>
+    <div class="fase"><div class="n">F5</div><div><h4>Mezcla seca con PP-g-MA (≈2 % p/p)</h4><p>Propuesta no ejecutada; el compatibilizante es la variable crítica de interfaz según la literatura de cargas minerales en PP. <span class="o o-teor">Propuesta</span></p></div></div>
+    <div class="fase"><div class="n">F6</div><div><h4>Compounding por extrusión 180–200 °C</h4><p>Propuesta no ejecutada; ventana térmica típica de PP con carga mineral y tornillo de mezcla media. <span class="o o-teor">Propuesta</span></p></div></div>
+    <div class="fase"><div class="n">F7</div><div><h4>Granulado y moldeo por compresión</h4><p>Propuesta no ejecutada; probetas tipo dog-bone y placas para densidad/MFI. <span class="o o-teor">Propuesta</span></p></div></div>
+    <div class="fase"><div class="n">F8</div><div><h4>Caracterización y contraste con el modelo</h4><p>Propuesta no ejecutada: densidad, MFI, tracción (ASTM D638), SEM de fractura y contraste de Ec medido contra Halpin–Tsai de este banco. <span class="o o-teor">Propuesta</span></p></div></div>
+  </div></div>
+</div></section>
+
+<section id="m08"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 08</span><h2>Equipo, versiones y reproducción</h2><span class="tag">quién hizo qué y cómo repetirlo</span></div>
+  <div class="grid2">
+    <div class="sheet"><h3>Equipo del trabajo de grado · UAO 2026</h3><div class="body">
+      <table><tbody>
+        <tr><td>Ivan David Bejarano Diaz</td><td>Ingeniería Ambiental · modelado CAD y banco de datos</td></tr>
+        <tr><td>Camila Cobo Jiménez</td><td>Ingeniería Ambiental · marco de ACV y trazabilidad</td></tr>
+        <tr><td>Gabriel Gaitán Guerrero</td><td>Ingeniería Multimedia · visor 3D y sitio</td></tr>
+        <tr><td>Adrian Fernando Vargas</td><td>Ingeniería Multimedia · documentación y verificación</td></tr>
+        <tr><td>Martha Lucia Palacios Peñaranda</td><td>Dirección del trabajo (Bióloga, Ph. D.)</td></tr>
+      </tbody></table>
+      <p class="small" style="margin-top:10px">Universidad Autónoma de Occidente, Facultad de Ciencias Básicas,
+      Programa de Ingeniería Ambiental, Santiago de Cali, 2026.</p>
+    </div></div>
+    <div class="sheet"><h3>Historial de versiones</h3><div class="body">
+      <table><thead><tr><th>Versión</th><th>Hito</th></tr></thead><tbody>
+        <tr><td class="mono">v0.1</td><td>Prototipo de equipo: calculadora micromecánica, visualización y trazabilidad (PolyComp Studio original).</td></tr>
+        <tr><td class="mono">v1.0</td><td>Sitio RCB UAO: tablas, calculadora y descargas del proyecto.</td></tr>
+        <tr><td class="mono">v2.0</td><td>PASO CIRCULAR: identidad propia, visor 3D con GLB incrustado y capturas reales.</td></tr>
+        <tr><td class="mono">v3.0</td><td>Este repositorio: seis módulos sobre datos.js verificado, secciones estructurales y comprobación ISO reproducibles.</td></tr>
+      </tbody></table>
+    </div></div>
+  </div>
+  <div class="grid2">
+    <div class="sheet"><h3>Mapa de archivos del repositorio</h3><div class="body">
+      <table><thead><tr><th>Ruta</th><th>Contenido</th></tr></thead><tbody>
+        <tr><td class="mono">index.html</td><td>Esta página: estructura, estilos y módulos.</td></tr>
+        <tr><td class="mono">studio.js</td><td>Lógica de los seis módulos y del visor Three.js.</td></tr>
+        <tr><td class="mono">datos.js</td><td>Datos verificados generados desde el sólido CAD (propiedades, secciones, comprobación, Halpin, ACV).</td></tr>
+        <tr><td class="mono">lib/</td><td>Three.js r147 UMD: núcleo, OrbitControls, GLTFLoader, RoomEnvironment.</td></tr>
+        <tr><td class="mono">cad/</td><td>GLB incrustado en base64, GLB/STEP/STL descargables y propiedades.json.</td></tr>
+        <tr><td class="mono">img/</td><td>Vistas renderizadas del sólido y diagrama de flujo del proceso.</td></tr>
+      </tbody></table>
+    </div></div>
+    <div class="sheet"><h3>Cómo reproducir el modelo y el visor</h3><div class="body">
+      <pre class="formula">freecadcmd glb_export.py        <em># B-rep → GLB (tol. 0,15 mm)</em>
+python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
+# datos.js se regenera con cad_props.py sobre el STEP exportado</pre>
+      <p class="small">El sitio abre directamente con <span class="mono">index.html</span> (protocolo file://):
+      sin servidor, sin build y sin dependencias remotas. El GLB viaja incrustado en base64 porque fetch está
+      bloqueado bajo file://.</p>
+      <details><summary>¿Por qué los valores del compuesto no son mediciones?</summary><p>Porque no se ejecutaron
+      las fases F3–F8. Los módulos 01 y 02 evalúan un modelo micromecánico con supuestos etiquetados; cuando el
+      equipo ejecute la ruta experimental, los valores medidos deberán reemplazar a los predichos y esta página
+      versionará el cambio.</p></details>
+      <details><summary>¿El encaje del módulo 04 es una prótesis utilizable?</summary><p>No. Es un modelo de
+      referencia académico generado por script, verificado numéricamente y comprobado analíticamente frente a
+      ISO 10328:2016 como verificación de concepto. Cualquier uso real exigiría ensayo normalizado, validación
+      clínica y prescripción profesional.</p></details>
+    </div></div>
+  </div>
+</div></section>
+
+<section id="m09"><div class="wrap">
+  <div class="modhead"><span class="modnum">MÓDULO 09</span><h2>Fuentes primarias: correspondencia y fichas del productor</h2><span class="tag">evidencia declarada, no medida</span></div>
+  <div class="sheet"><h3>Hilo con Pyrum Innovations AG · capturas reales en orden cronológico</h3><div class="body">
+    <p class="small">Intercambio documental sostenido entre el 29/09/2026 y el 11/11/2026 con F. Cremer (Head of Product
+    Innovation &amp; Director Sales). Estas capturas son la base de cada dato etiquetado como «Pyrum» en la matriz del
+    módulo 05; ninguna constituye medición propia ni validación independiente.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:12px">
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_01.png" alt="Correo de Pyrum, 29/09/2026" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">29/09/2026 — acuse de recibo y revisión técnica con R&amp;D.</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_02.png" alt="Firma de Pyrum Innovations AG" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">29/09/2026 — firma y datos de contacto (Dillingen/Saar).</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_03.png" alt="Respuesta técnica 13/10/2026, puntos 1-3" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">13/10/2026 — BET/STSA indicativos, PP y PE, capacidad Dillingen.</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_04.png" alt="Respuesta técnica 13/10/2026, puntos 3-5" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">13/10/2026 — rendimientos 40–45/40/15–20 %, ACV y muestra.</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_05.png" alt="Solicitud original con adjuntos TDS y SDS" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">Solicitud original con adjuntos TDS PI-ADA-PYR-004 y SDS PI-AQB-PYR-006.</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_06.png" alt="Seguimiento del equipo" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">Seguimiento: sin ensayos de laboratorio, muestra 100–200 g, dirección y fechas.</figcaption></figure>
+      <figure style="margin:0;border:1.5px solid #14181c;background:#fff;padding:6px;box-shadow:4px 4px 0 #14181c"><img src="img/email_07.png" alt="Respuesta de Pyrum, 11/11/2026" style="width:100%;display:block"><figcaption class="small" style="margin-top:6px">11/11/2026 — revisión interna del envío de la muestra a Colombia.</figcaption></figure>
+    </div>
+  </div></div>
+  <div class="grid2" style="margin-top:18px">
+    <div class="sheet"><h3>TDS PI-ADA-PYR-004 · rev. 6, 30/07/2026</h3><div class="body tblscroll" style="max-height:420px">
+      <table><thead><tr><th>Parámetro</th><th>Método</th><th>Valor</th><th>Unidad</th></tr></thead><tbody>
+        <tr><td>Densidad de vertido</td><td class="mono">ASTM D1513</td><td class="mono">450–550</td><td>kg/m³</td></tr>
+        <tr><td>Contenido de carbono</td><td class="mono">DIN 51732</td><td class="mono">&gt; 75</td><td>%</td></tr>
+        <tr><td>Contenido de ceniza</td><td class="mono">ASTM D8474</td><td class="mono">≤ 25</td><td>%</td></tr>
+        <tr><td>Contenido de azufre</td><td class="mono">DIN 51732</td><td class="mono">2,0–2,6</td><td>%</td></tr>
+        <tr><td>pH</td><td class="mono">ASTM D1512</td><td class="mono">6–10</td><td>—</td></tr>
+        <tr><td>Suma de 8 HAP (UE 1272/2013)</td><td class="mono">DIN ISO 18289</td><td class="mono">&lt; 1</td><td>ppm</td></tr>
+        <tr><td>Tamaño de partícula DV(97)</td><td class="mono">ASTM WK87480</td><td class="mono">&lt; 10</td><td>µm</td></tr>
+        <tr><td>Dureza media de pellet (20)</td><td class="mono">ASTM D5230</td><td class="mono">20–55</td><td>cN</td></tr>
+        <tr><td>Promedio 5 más duros (25 %)</td><td class="mono">ASTM D5230</td><td class="mono">&lt; 90</td><td>cN</td></tr>
+        <tr><td>Dureza máxima de pellet</td><td class="mono">ASTM D5230</td><td class="mono">&lt; 95</td><td>cN</td></tr>
+        <tr><td>Residuo en tamiz (malla 325)</td><td class="mono">ASTM D1514</td><td class="mono">&lt; 0,001</td><td>%</td></tr>
+        <tr><td>Contenido de finos</td><td class="mono">ASTM D1508</td><td class="mono">≤ 10</td><td>%</td></tr>
+        <tr><td>Tamaño de pellet</td><td class="mono">ASTM D1511</td><td class="mono">≤ 3,0</td><td>mm</td></tr>
+        <tr><td>Transmitancia extracto tolueno</td><td class="mono">ASTM D1618</td><td class="mono">≥ 80</td><td>%</td></tr>
+        <tr><td>Volátiles (550 °C)</td><td class="mono">ASTM D8474</td><td class="mono">&lt; 3,0</td><td>%</td></tr>
+        <tr><td>Pérdida por calentamiento</td><td class="mono">ASTM D1509</td><td class="mono">≤ 2</td><td>%</td></tr>
+      </tbody></table>
+    </div></div>
+    <div class="sheet"><h3>SDS-TTB-EN · versión 7, 08/07/2026</h3><div class="body tblscroll" style="max-height:420px">
+      <table><thead><tr><th>Concepto</th><th>Valor documentado</th><th>§</th></tr></thead><tbody>
+        <tr><td>Identificación</td><td>CAS 1333-86-4 · EINECS 215-609-9</td><td class="mono">1.1</td></tr>
+        <tr><td>REACH</td><td>Exento: producto de reciclaje, art. 2(7)(d)</td><td class="mono">1.1</td></tr>
+        <tr><td>Clasificación CLP</td><td>No clasificado; sin pictogramas ni frases H</td><td class="mono">2</td></tr>
+        <tr><td>Composición</td><td>Carbon black 70–90 % · SiO₂ 10–25 % · ZnS &lt; 4,5 %</td><td class="mono">3</td></tr>
+        <tr><td>Exposición ocupacional (CB)</td><td>A-Dust 1,25 mg/m³ · E-Dust 10 mg/m³</td><td class="mono">8</td></tr>
+        <tr><td>pH</td><td>7–9 (ASTM D1512 / DIN ISO 10390)</td><td class="mono">9</td></tr>
+        <tr><td>Densidad verdadera</td><td>«Not determined»</td><td class="mono">9</td></tr>
+        <tr><td>Densidad a granel</td><td>600–800 kg/m³</td><td class="mono">9</td></tr>
+        <tr><td>Inflamabilidad</td><td>No inflamable · ignición &gt; 600 °C · autoignición 150 °C · BZ3</td><td class="mono">9</td></tr>
+        <tr><td>Explosividad de polvo</td><td>LEL 100 g/m³ · Pmax 9,8 bar · dP/dt 218 bar/s · Kst 59 bar·m/s</td><td class="mono">9.2</td></tr>
+        <tr><td>Sílice cristalina respirable</td><td>&lt; 0,01 % (EN 17289-3)</td><td class="mono">9.2</td></tr>
+        <tr><td>Transporte y agua</td><td>No mercancía peligrosa · no peligroso para el agua · TRGS 510 cat. 10–13</td><td class="mono">14–15</td></tr>
+      </tbody></table>
+      <p class="small" style="margin-top:10px"><b>Coherencia con M02:</b> la SDS declara la densidad verdadera como
+      «Not determined»; la densidad de partícula de Halpin–Tsai sigue siendo supuesto teórico etiquetado. La densidad
+      de vertido TDS y la densidad a granel SDS corresponden a estados y métodos distintos: se reportan sin conciliar.
+      Descargables: <a href="docs/PI-ADA-PYR-004_TDS_ThermoTireBlack_EN.pdf">TDS PDF</a> ·
+      <a href="docs/PI-AQB-PYR-006_SDS_ThermoTireBlack_EN.pdf">SDS PDF</a>.</p>
+    </div></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap cols">
+  <div>
+    <h4>Advertencias</h4>
+    <p>Los datos de capacidad y rendimiento son declaraciones del productor (Pyrum Innovations AG): capacidades de
+    diseño y rangos indicativos, no producción verificada. Los escenarios de ACV pertenecen al modelo europeo de
+    2022 y no se extrapolan a Colombia. El modelo CAD es una propuesta de diseño, no un dispositivo médico.</p>
+  </div>
+  <div>
+    <h4>Referencias (APA 7)</h4>
+    <ol>
+      <li>Anupabphan, A., et al. (2025). <i>ACS Omega, 10</i>(37), 42451–42460.</li>
+      <li>Campbell, J., et al. (2012). <i>Prosthetics and Orthotics International, 36</i>(2), 181–189.</li>
+      <li>Cardona-Uribe, N., et al. (2021). <i>Sustainable Materials and Technologies, 28</i>, e00287.</li>
+      <li>ISO. (2016). <i>ISO 10328:2016. External prostheses for the lower limbs — Requirements and test methods</i>.</li>
+      <li>Maga, D., Aryan, V., &amp; Blömer, J. (2022). <i>Life cycle assessment of pyrolysis of used tyres</i>. Fraunhofer UMSICHT.</li>
+      <li>Martínez, J. D., et al. (2013). <i>Renewable and Sustainable Energy Reviews, 23</i>, 179–213.</li>
+      <li>Nagarajan, R., et al. (2024). <i>Prosthesis, 6</i>(3), 457–477.</li>
+      <li>Pyrum Innovations AG. (2026). <i>Respuesta técnica a solicitud académica</i>, 29 de septiembre de 2026 [Anexo B del trabajo de grado].</li>
+    </ol>
+  </div>
+  <div>
+    <h4>Enlaces del proyecto</h4>
+    <p><a href="cad/Encaje_Transtibial_UAO.step" style="color:#FBBF24">Sólido STEP</a> ·
+    <a href="cad/Encaje_Transtibial_UAO.glb" style="color:#FBBF24">Modelo GLB</a> ·
+    <a href="cad/Encaje_Transtibial_UAO.stl" style="color:#FBBF24">Malla STL</a> ·
+    <a href="cad/propiedades.json" style="color:#FBBF24">propiedades.json</a></p>
+    <p class="mono" style="font-size:11px">POLYCOMPSTudio · rama main · v3.0 · 2026-11-17</p>
+  </div>
+</div></footer>
+
+<script src="datos.js"></script>
+<script src="lib/three.min.js"></script>
+<script src="lib/OrbitControls.js"></script>
+<script src="lib/GLTFLoader.js"></script>
+<script src="lib/RoomEnvironment.js"></script>
+<script src="cad/modelo_glb.js"></script>
+<script src="studio.js"></script>
+</body>
+</html>
