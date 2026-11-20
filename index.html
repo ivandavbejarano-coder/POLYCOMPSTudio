@@ -166,7 +166,7 @@ details p{padding:0 14px 12px;margin:0;font-size:14px;color:var(--ink2)}
   </div>
   <div class="stats">
     <div class="stat"><b>6</b><span>módulos interactivos</span></div>
-    <div class="stat"><b id="st-tris">—</b><span>triángulos del sólido en el visor</span></div>
+    <div class="stat"><b id="st-tris">29.774</b><span>triángulos del sólido en el visor</span></div>
     <div class="stat"><b>9</b><span>secciones estructurales verificadas</span></div>
     <div class="stat"><b>4</b><span>formulaciones (0–15 % p/p TTB)</span></div>
     <div class="stat"><b id="st-datos">—</b><span>datos con procedencia etiquetada</span></div>
@@ -433,19 +433,6 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
       <p class="small">El sitio abre directamente con <span class="mono">index.html</span> (protocolo file://):
       sin servidor, sin build y sin dependencias remotas. El GLB viaja incrustado en base64 porque fetch está
       bloqueado bajo file://.</p>
-      <details><summary>¿Por qué los valores del compuesto no son mediciones?</summary><p>Porque no se ejecutaron
-      las fases F3–F8. Los módulos 01 y 02 evalúan un modelo micromecánico con supuestos etiquetados; cuando el
-      equipo ejecute la ruta experimental, los valores medidos deberán reemplazar a los predichos y esta página
-      versionará el cambio.</p></details>
-      <details><summary>¿El encaje del módulo 04 es una prótesis utilizable?</summary><p>No. Es un modelo de
-      referencia académico generado por script, verificado numéricamente y comprobado analíticamente frente a
-      ISO 10328:2016 como verificación de concepto. Cualquier uso real exigiría ensayo normalizado, validación
-      clínica y prescripción profesional.</p></details>
-      <details><summary>¿Cómo exporto los resultados?</summary><p>Con los botones de la cabecera: «Exportar informe
-      PDF de resultados» compone un informe con el estado actual de todos los módulos y abre el diálogo de impresión
-      del navegador (elija destino «Guardar como PDF»); «Descargar banco de datos (CSV)» exporta las tablas de
-      formulaciones, secciones, comprobación, ACV y trazabilidad. Todo ocurre en el navegador: la página no almacena
-      datos ni los envía a ningún servidor.</p></details>
     </div></div>
   </div>
 </div></section>
@@ -473,7 +460,7 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
         <tr><td>Contenido de carbono</td><td class="mono">DIN 51732</td><td class="mono">&gt; 75</td><td>%</td></tr>
         <tr><td>Contenido de ceniza</td><td class="mono">ASTM D8474</td><td class="mono">≤ 25</td><td>%</td></tr>
         <tr><td>Contenido de azufre</td><td class="mono">DIN 51732</td><td class="mono">2,0–2,6</td><td>%</td></tr>
-        <tr><td>pH</td><td class="mono">ASTM D1512</td><td class="mono">6–10</td><td>—</td></tr>
+        <tr><td>pH</td><td class="mono">ASTM D1512</td><td class="mono">6–10</td><td>adimensional</td></tr>
         <tr><td>Suma de 8 HAP (UE 1272/2013)</td><td class="mono">DIN ISO 18289</td><td class="mono">&lt; 1</td><td>ppm</td></tr>
         <tr><td>Tamaño de partícula DV(97)</td><td class="mono">ASTM WK87480</td><td class="mono">&lt; 10</td><td>µm</td></tr>
         <tr><td>Dureza media de pellet (20)</td><td class="mono">ASTM D5230</td><td class="mono">20–55</td><td>cN</td></tr>
@@ -524,7 +511,7 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
     <p>Sitio de divulgación <b>PASO CIRCULAR</b> (repo AMBIENTE_DESARROLLO):
     <a href="https://ivandavbejarano-coder.github.io/AMBIENTE_DESARROLLO/">versión publicada</a> ·
     este studio comparte con él el mismo banco de datos verificado (<span class="mono">datos.js</span>) y la misma
-    matriz de trazabilidad. Documento definitivo y fichas TDS/SDS descargables en su sección de documentación.</p>
+    matriz de trazabilidad. Documento final y fichas TDS/SDS descargables en su sección de documentación.</p>
   </div>
   <div>
     <h4>Referencias (APA 7)</h4>
@@ -557,6 +544,6 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
 <script src="lib/GLTFLoader.js"></script>
 <script src="lib/RoomEnvironment.js"></script>
 <script src="cad/modelo_glb.js"></script>
-<script src="studio.js"></script>
+<script src="studio.js?v=20261119"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
   var COLORES = ['#EDEDE8', '#8E9294', '#55595C', '#2E3235'];
   var MASAS = D.propiedades.masa_estimada_g;
   var HAL = D.halpin, COMP = D.comprobacion, FLU = D.fluencia_MPa;
+  if (FLU['PP virgen'] !== undefined) FLU['PP virgen (0 % rCB)'] = FLU['PP virgen'];
 
   /* ---------- M01 formulador ---------- */
   function pintaFormulador(i) {
@@ -27,7 +28,7 @@
       var tr = document.createElement('tr');
       tr.innerHTML = '<td>' + n + '</td><td class="mono">' + HAL.w[i] + '</td><td class="mono">' + fmt(HAL.Vf[i], 2) +
         '</td><td class="mono">' + fmt(HAL.rho[i], 3) + '</td><td class="mono">' + fmt(HAL.Ec[i], 3) +
-        '</td><td class="mono">' + (i ? '+' + fmt(HAL.dEc[i], 2) + ' %' : '—') +
+        '</td><td class="mono">' + (i ? '+' + fmt(HAL.dEc[i], 2) + ' %' : '0,00') +
         '</td><td class="mono">' + fmt(HAL.Eesp[i], 3) + '</td><td class="mono">' + fmt(FLU[n], 0) +
         '</td><td class="mono">' + fmt(MASAS[n], 0) + '</td>';
       tb.appendChild(tr);
@@ -457,7 +458,7 @@
     NOMBRES.forEach(function (n, i) {
       h.push('<tr><td>' + n + '</td><td class="mono">' + HAL.w[i] + '</td><td class="mono">' + fmt(HAL.Vf[i], 2) +
         '</td><td class="mono">' + fmt(HAL.rho[i], 3) + '</td><td class="mono">' + fmt(HAL.Ec[i], 3) +
-        '</td><td class="mono">' + (i ? '+' + fmt(HAL.dEc[i], 2) : '—') + '</td><td class="mono">' + fmt(HAL.Eesp[i], 3) +
+        '</td><td class="mono">' + (i ? '+' + fmt(HAL.dEc[i], 2) : '0,00') + '</td><td class="mono">' + fmt(HAL.Eesp[i], 3) +
         '</td><td class="mono">' + fmt(FLU[n], 0) + '</td><td class="mono">' + fmt(MASAS[n], 0) + '</td></tr>');
     });
     h.push('</tbody></table><p class="nota">Volumen de material constante 307,4 cm³ (medido sobre el sólido CAD). La fluencia del compuesto es supuesto propio con base en literatura de PP cargado.</p></div>');
