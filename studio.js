@@ -453,7 +453,7 @@
     var h = [];
     h.push('<h1>PolyComp Studio v3.2 — Informe de resultados</h1>');
     h.push('<p class="sub">Generado en el navegador el ' + fecha + ' · Trabajo de grado UAO 2026 · Caso Pyrum Innovations AG · Compuesto PP + ThermoTireBlack® (rCB)</p>');
-    h.push('<div class="warn"><b>Advertencias:</b> prototipo académico; no es un dispositivo médico validado. Los valores del compuesto son predicciones del modelo Halpin–Tsai con supuestos etiquetados, no mediciones (las fases experimentales F3–F8 no se ejecutaron). Los escenarios de ACV pertenecen al modelo europeo de Maga, Aryan y Blömer (2022) y no se extrapolan a Colombia. La comprobación ISO 10328 es analítica de primer orden: no sustituye el ensayo normalizado ni un análisis por elementos finitos.</div>');
+    h.push('<div class="warn"><b>Advertencias:</b> prototipo académico; no es un dispositivo médico validado. Los valores del compuesto son predicciones del modelo Halpin–Tsai con supuestos etiquetados, no mediciones; los cálculos propios se identifican como cálculos propios (las fases experimentales F3–F8 no se ejecutaron). Se revisó la normativa colombiana de NFU y la ruta de validación de prótesis. Los escenarios de ACV pertenecen al modelo europeo de Maga, Aryan y Blömer (2022) y se presentan como referencia técnica, no como dato colombiano. La comprobación ISO 10328 es analítica de primer orden: no sustituye el ensayo normalizado ni un análisis por elementos finitos.</div>');
     h.push('<div class="sec"><h2>1 · Formulaciones del compuesto (M01)</h2><table><thead><tr><th>Formulación</th><th>w (% p/p)</th><th>Vf (%)</th><th>ρc (g/cm³)</th><th>Ec (GPa)</th><th>ΔEc (%)</th><th>E esp.</th><th>Fluencia asumida (MPa)</th><th>Masa encaje (g)</th></tr></thead><tbody>');
     NOMBRES.forEach(function (n, i) {
       h.push('<tr><td>' + n + '</td><td class="mono">' + HAL.w[i] + '</td><td class="mono">' + fmt(HAL.Vf[i], 2) +
@@ -560,7 +560,7 @@
       L.push(csvLine([q.z, q.sax.toFixed(3), q.sap.toFixed(3), q.smax.toFixed(3)]));
     });
     L.push('');
-    L.push('ACV 2022 (Maga, Aryan y Blömer — no extrapolado a Colombia)');
+    L.push('ACV 2022 (Maga, Aryan y Blömer — referencia europea, no dato colombiano)');
     L.push(csvLine(['Escenario', 'GWP100 (kg CO2-eq/t NFU)']));
     D.acv.forEach(function (a) { L.push(csvLine([a.esc, a.gwp])); });
     L.push('');

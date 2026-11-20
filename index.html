@@ -161,7 +161,7 @@ details p{padding:0 14px 12px;margin:0;font-size:14px;color:var(--ink2)}
   <div class="chips">
     <span class="chip warn">No es un dispositivo médico validado</span>
     <span class="chip warn">Los valores del compuesto son predicciones del modelo, no mediciones</span>
-    <span class="chip warn">ACV 2022: no extrapolado a Colombia</span>
+    <span class="chip warn">ACV europeo 2022: referencia técnica, no dato colombiano</span>
     <span class="chip">Cada dato indica su procedencia</span>
   </div>
   <div class="stats">
@@ -361,7 +361,7 @@ E específico = Ec / ρc                w en fracción másica</pre>
   <div class="modhead"><span class="modnum">MÓDULO 06</span><h2>Escenarios de ACV (modelo 2022)</h2><span class="tag">GWP100 kg CO₂-eq por t de NFU</span></div>
   <p class="intro">Salidas del análisis de ciclo de vida de la pirólisis de neumáticos fuera de uso elaborado por
   Fraunhofer UMSICHT en 2022 (Maga, Aryan &amp; Blömer), documento confidencial citado por el trabajo de grado.
-  Son <b>resultados de un modelo europeo de 2022</b>: no se extrapolan a Colombia ni se presentan como medición propia.</p>
+  Son <b>resultados de un modelo europeo de 2022</b>: se presentan como referencia técnica, no como desempeño ambiental colombiano ni como medición propia. La normativa colombiana de NFU y la ruta de validación de prótesis se revisaron por separado; trasladar estas cifras exigiría un inventario con datos locales.</p>
   <div class="grid2">
     <div class="sheet"><h3>GWP100 por escenario</h3><div class="body"><canvas class="chart" id="a-canvas"></canvas></div></div>
     <div class="sheet"><h3>Lectura de los escenarios</h3><div class="body">
@@ -503,8 +503,9 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
   <div>
     <h4>Advertencias</h4>
     <p>Los datos de capacidad y rendimiento son declaraciones del productor (Pyrum Innovations AG): capacidades de
-    diseño y rangos indicativos, no producción verificada. Los escenarios de ACV pertenecen al modelo europeo de
-    2022 y no se extrapolan a Colombia. El modelo CAD es una propuesta de diseño, no un dispositivo médico.</p>
+    diseño y rangos indicativos, no producción verificada. Se revisó la normativa colombiana aplicable a la gestión
+    de NFU y a la validación de prótesis; los escenarios de ACV provienen del modelo europeo de 2022 y se presentan
+    como referencia técnica, no como dato local. El modelo CAD es una propuesta de diseño, no un dispositivo médico.</p>
   </div>
   <div>
     <h4>Proyecto asociado</h4>
@@ -544,6 +545,6 @@ python -c "…base64 del GLB…"    <em># cad/modelo_glb.js para file://</em>
 <script src="lib/GLTFLoader.js"></script>
 <script src="lib/RoomEnvironment.js"></script>
 <script src="cad/modelo_glb.js"></script>
-<script src="studio.js?v=20261119"></script>
+<script src="studio.js?v=20261119b"></script>
 </body>
 </html>
